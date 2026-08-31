@@ -3,11 +3,20 @@
 Skin scan, personalised routine, progress tracking, ingredient checker.
 No backend, no accounts, no trained models. Everything runs in the browser.
 
+**Live:** https://lumen-skincare-kappa.vercel.app
+**Repo:** https://github.com/lkliksberg27/lumen-skincare (private)
+
 ```
 npm install
-npm run dev          # http://localhost:5180
+npm run dev            # http://localhost:5180
 node test-routine.mjs  # budget + conflict rule checks
 ```
+
+Pushing to `main` deploys to production automatically.
+
+The camera needs a secure context, so it works on the deployed HTTPS URL and
+on `localhost`, but not over plain HTTP on a LAN address. Photo upload works
+everywhere.
 
 ## The governing rule
 

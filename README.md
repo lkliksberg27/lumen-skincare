@@ -38,6 +38,7 @@ generated text.
 | 4. Tracking | Delta between two scans, with a 6 point noise floor | `src/lib/analyze.js` |
 | 5. Products | Seed catalog with indicative prices | `src/lib/catalog.js` |
 | Ingredient check | Hand-authored conflict rules over a parsed INCI list | `src/lib/ingredients.js` |
+| Barcode scan | Native `BarcodeDetector`, falling back to lazy-loaded ZXing | `src/lib/barcode.js` |
 
 ## The scan
 
@@ -98,6 +99,19 @@ vitamin C is reported as fine rather than repeating a myth.
 
 Barcode lookup hits Open Beauty Facts, which is free and needs no key. Coverage
 is patchy, so pasting the label is the reliable path.
+
+### Barcode scanning
+
+Two engines, chosen at runtime. The native `BarcodeDetector` API is instant and
+needs no download, but it is Chrome and Edge only, with no Safari, iOS or
+Firefox support. Everywhere else ZXing is dynamically imported, which keeps its
+459KB out of the main bundle for the browsers that never need it.
+
+A code must be read twice in a row before it counts. A single frame of a
+barcode at an angle misreads often enough to matter, and looking up the wrong
+product is worse than waiting another half second.
+
+Scanning uses the rear camera and needs HTTPS or localhost.
 
 Reference data worth wiring in next: the CosIng CSV (~30k INCI entries with EU
 restriction annexes) and INCI API (2,000 free requests a month, returns

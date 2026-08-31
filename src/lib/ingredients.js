@@ -399,9 +399,18 @@ export async function lookupBarcode(barcode) {
   if (!res.ok) throw new Error('Lookup failed')
   const data = await res.json()
   if (data.status !== 1) throw new Error('Not in the Open Beauty Facts database yet')
+
+  const name = data.product?.product_name?.trim() || 'Unknown product'
+  // `brands` is often a comma-separated list, and the product name
+  // frequently already leads with the brand. Joining blindly gives
+  // "CeraVe CeraVe Foaming Cleanser".
+  const brand = (data.product?.brands || '').split(',')[0].trim()
+  const dupe = brand && name.toLowerCase().startsWith(brand.toLowerCase())
+
   return {
-    name: data.product?.product_name || 'Unknown product',
-    brand: data.product?.brands || '',
+    name,
+    brand,
+    title: dupe || !brand ? name : `${brand} ${name}`,
     ingredientsText: data.product?.ingredients_text || '',
   }
 }

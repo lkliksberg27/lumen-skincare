@@ -311,6 +311,50 @@ h1, h2, h3 { margin: 0; font-weight: 400; }
   color: var(--ink-3);
 }
 
+/* ---------- barcode scanner ---------- */
+
+.frame.wide {
+  aspect-ratio: 4 / 3;
+  background: #16150F;
+}
+
+.scan-guide {
+  position: absolute;
+  width: 80%;
+  height: 36%;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 3px;
+  box-shadow: 0 0 0 100vmax rgba(20, 19, 15, 0.5);
+  pointer-events: none;
+}
+
+/* A sweeping line, so it reads as actively looking rather than frozen. */
+.scan-guide i {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  height: 1px;
+  background: #C97A6D;
+  box-shadow: 0 0 7px rgba(201, 122, 109, 0.75);
+  animation: sweep 2.4s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  0%, 100% { top: 14%; opacity: 0.35; }
+  50%      { top: 86%; opacity: 1; }
+}
+
+.scan-hit {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(79, 113, 84, 0.28);
+  animation: hit 0.45s var(--ease);
+}
+
+@keyframes hit { from { opacity: 0; } }
+
 /* ---------- routine ---------- */
 
 .step {
